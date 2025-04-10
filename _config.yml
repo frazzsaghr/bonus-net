@@ -1,8 +1,8 @@
 title: "Bonus Collector"
 description: "Claim daily free spins, coins, and chips for your favorite games at Bonus Collector! Updated daily with the latest rewards."
 
-baseurl: ""
-url: "https://frazzsaghr.github.io/bonus-net/"
+baseurl: "/bonus-net"
+url: "https://frazzsaghr.github.io"
 
 markdown: kramdown
 timezone: America/Los_Angeles
