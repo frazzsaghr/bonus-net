@@ -2,155 +2,202 @@
 layout: default
 ---
 
-<div class="card shadow-sm mb-2">
-  <div class="card-body">
-
-    {% if page.title %}
-    <!-- App Install Section -->
-    <div class="d-flex align-items-center mb-3 p-2 border rounded" style="background-color: #f8f9fa;">
-      <img src="{{ page.app_logo | default: '/assets/icons/icon-512x512.png' }}" alt="{{ page.title }} logo" class="mr-2" style="max-width: 40px;">
-      <div class="flex-grow-1">
-        <span class="font-weight-bold mb-0">{{ page.title }}</span>
-      </div>
-      <div class="ml-auto">
-        <button id="install-button" class="btn btn-primary btn-sm">Install</button>
+<!-- Hero Section with Material Design -->
+<div class="hero-section" style="background-color: #6200ee; color: white; padding: 3rem 0; margin-bottom: 2rem; box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 offset-md-2 text-center">
+        <h1 class="display-4">{{ page.title }}</h1>
+        {% if page.description %}
+          <p class="lead mt-3">{{ page.description }}</p>
+        {% endif %}
+        <div class="mt-3">
+          <span class="text-light">
+            <i class="bi bi-person-fill"></i> {{ page.author }} |
+            <i class="bi bi-calendar-event"></i>
+            {% if site.data.include_files[page.include_file].last_modified %}
+              Last updated: 
+              <span id="last-updated" data-last-modified="{{ site.data.include_files[page.include_file].last_modified | date: "%Y-%m-%dT%H:%M:%SZ" }}"></span>
+            {% else %}
+              Last updated: {{ page.last_modified_at | date: "%B %d, %Y" }}
+            {% endif %}
+          </span>
+        </div>
       </div>
     </div>
-    {% endif %}
-
-    <p class="card-subtitle text-muted mt-3 mb-3">
-  By <strong>{{ page.author }}</strong> | 
-  {% assign include_file = page.include_file | prepend: "_includes/" %}
-  {% if site.data.include_files[page.include_file].last_modified %}
-    Last updated: 
-    <strong id="last-updated" data-last-modified="{{ site.data.include_files[page.include_file].last_modified | date: "%Y-%m-%dT%H:%M:%SZ" }}"></strong>
-  {% else %}
-    Last updated: <strong>{{ page.last_modified_at | date: "%B %d, %Y" }}</strong>
-  {% endif %}
-</p>
-
-</div>
-</div>
-
-    <div class="card-text">{{ content }}</div>
-
-<div class="card shadow-sm mb-2">
-  <div class="card-body">
-  
-{% if page.tags %}
-  <div class="tags mt-3">
-    <span class="badge badge-primary">Tags:</span>
-    {% for tag in page.tags %}
-      <a href="{{ site.baseurl }}/tag/{{ tag | replace: ' ', '-' }}/" class="badge badge-secondary">{{ tag }}</a>
-    {% endfor %}
   </div>
-{% endif %}
+</div>
 
-    <div class="social-share mt-4">
-      <a href="https://www.facebook.com/sharer/sharer.php?u={{ site.url }}{{ page.url }}" target="_blank" class="btn btn-primary mb-2 me-2">
-        <i class="bi bi-facebook"></i> Share on Facebook
-      </a>
-      <a href="https://twitter.com/intent/tweet?text={{ page.title }}&url={{ site.url }}{{ page.url }}" target="_blank" class="btn btn-info mb-2 me-2">
-        <i class="bi bi-twitter"></i> Tweet
-      </a>
-      <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ site.url }}{{ page.url }}&title={{ page.title }}" target="_blank" class="btn btn-primary mb-2 me-2">
-        <i class="bi bi-linkedin"></i> Share on LinkedIn
-      </a>
-      <a href="https://reddit.com/submit?url={{ site.url }}{{ page.url }}&title={{ page.title }}" target="_blank" class="btn btn-danger mb-2 me-2">
-        <i class="bi bi-reddit"></i> Share on Reddit
-      </a>
-      <a href="https://api.whatsapp.com/send?text={{ page.title }} {{ site.url }}{{ page.url }}" target="_blank" class="btn btn-success mb-3 me-2">
-        <i class="bi bi-whatsapp"></i> Share on WhatsApp
-      </a>
-    </div>
+<div class="container">
+  <div class="card shadow-sm mb-4" style="border-radius: 8px; overflow: hidden;">
+    <div class="card-body">
 
-    <!-- Search Section -->
-    <h2>All Games</h2>
-    <div class="container mt-4">
-      <div class="input-group">
-        <input type="search" id="search-input" class="form-control" placeholder="Search for Games..." aria-label="Search">
-        <div class="input-group-append">
-          <button class="btn btn-primary" type="button" id="search-button">
+      {% if page.app_logo %}
+      <!-- App Install Section with Material Design -->
+      <div class="d-flex align-items-center mb-4 p-3 border-0 rounded" style="background-color: #f5f5f5; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);">
+        <img src="{{ page.app_logo | default: '/assets/icons/icon-512x512.png' }}" alt="{{ page.title }} logo" class="me-3" style="max-width: 48px; border-radius: 8px;">
+        <div class="flex-grow-1">
+          <span class="fw-bold fs-5 mb-0">{{ page.title }}</span>
+        </div>
+        <div class="ms-auto">
+          <button id="install-button" class="btn btn-primary" style="text-transform: uppercase; font-weight: 500; border-radius: 4px; box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);">Install</button>
+        </div>
+      </div>
+      {% endif %}
+
+      <div class="card-text mb-4">{{ content }}</div>
+
+      {% if page.tags %}
+      <div class="tags mt-4 mb-3">
+        <div class="d-flex flex-wrap gap-2">
+          <span class="badge rounded-pill" style="background-color: #6200ee;">Tags:</span>
+          {% for tag in page.tags %}
+            <a href="{{ site.baseurl }}/tag/{{ tag | replace: ' ', '-' }}/" class="badge rounded-pill text-decoration-none" style="background-color: #e0e0e0; color: #424242;">{{ tag }}</a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Social Share Section with Material Design -->
+      <div class="social-share mt-4 mb-4">
+        <h5 class="mb-3" style="color: #424242; font-weight: 500;">Share This Post</h5>
+        <div class="d-flex flex-wrap gap-2">
+          <a href="https://www.facebook.com/sharer/sharer.php?u={{ site.url }}{{ page.url }}" target="_blank" class="btn" style="background-color: #3b5998; color: white; border-radius: 4px; box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);">
+            <i class="bi bi-facebook"></i> Facebook
+          </a>
+          <a href="https://twitter.com/intent/tweet?text={{ page.title }}&url={{ site.url }}{{ page.url }}" target="_blank" class="btn" style="background-color: #1DA1F2; color: white; border-radius: 4px; box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);">
+            <i class="bi bi-twitter"></i> Twitter
+          </a>
+          <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ site.url }}{{ page.url }}&title={{ page.title }}" target="_blank" class="btn" style="background-color: #0077b5; color: white; border-radius: 4px; box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);">
+            <i class="bi bi-linkedin"></i> LinkedIn
+          </a>
+          <a href="https://reddit.com/submit?url={{ site.url }}{{ page.url }}&title={{ page.title }}" target="_blank" class="btn" style="background-color: #ff4500; color: white; border-radius: 4px; box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);">
+            <i class="bi bi-reddit"></i> Reddit
+          </a>
+          <a href="https://api.whatsapp.com/send?text={{ page.title }} {{ site.url }}{{ page.url }}" target="_blank" class="btn" style="background-color: #25D366; color: white; border-radius: 4px; box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);">
+            <i class="bi bi-whatsapp"></i> WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <!-- Search Section with Material Design -->
+      <div class="mt-5 mb-4">
+        <h4 class="mb-3" style="color: #424242; font-weight: 500;">All Games</h4>
+        <div class="input-group" style="box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); border-radius: 4px; overflow: hidden;">
+          <input type="search" id="search-input" class="form-control border-0" placeholder="Search for Games..." aria-label="Search" style="padding: 12px 16px;">
+          <button class="btn btn-primary" type="button" id="search-button" style="border-radius: 0; padding: 0 20px;">
             <i class="bi bi-search"></i>
           </button>
         </div>
+        <div id="results-container" class="mt-3 p-2"></div>
       </div>
-      <div id="results-container" class="mt-4"></div>
+
+      <!-- All Posts List with Material Design -->
+      <div class="mt-5">
+        <h4 class="mb-3" style="color: #424242; font-weight: 500;">Browse All Games</h4>
+        <div class="list-group fixed-height-scroll" style="max-height: 500px; overflow-y: auto; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);">
+          {% assign sorted_posts = site.posts | sort: 'title' %}
+          {% for post in sorted_posts %}
+            <a href="{{ post.url }}" class="list-group-item list-group-item-action d-flex align-items-center border-0 border-bottom" style="padding: 16px;">
+              <img src="{{ post.image }}" alt="{{ post.title }}" class="me-3" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;"/>
+              <span>{{ post.title }}</span>
+            </a>
+          {% endfor %}
+        </div>
+      </div>
     </div>
-    <script>
-      const searchInput = document.getElementById('search-input');
-      const resultsContainer = document.getElementById('results-container');
-      const searchButton = document.getElementById('search-button');
+  </div>
+</div>
 
-      function performSearch(query) {
-        fetch('{{ site.baseurl }}/search.json')
-          .then(response => response.json())
-          .then(data => {
-            const results = data.filter(post => post.content.includes(query));
-            resultsContainer.innerHTML = results.length > 0
-              ? results.map(result => `<div><a href="${result.url}">${result.title}</a></div>`).join('')
-              : 'No results found';
-          });
-      }
+<!-- Install Button Logic -->
+<script>
+  let deferredPrompt;
+  const installButton = document.getElementById('install-button');
+  installButton.style.display = 'none'; // Initially hide the button
 
-      searchButton.addEventListener('click', () => {
-        const query = searchInput.value.trim();
-        if (query) performSearch(query);
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installButton.style.display = 'block'; // Show the button
+
+    installButton.addEventListener('click', () => {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User accepted the A2HS prompt');
+        } else {
+          console.log('User dismissed the A2HS prompt');
+        }
+        deferredPrompt = null;
       });
+    });
+  });
 
-      searchInput.addEventListener('keypress', (event) => {
-        if (event.key === 'Enter') {
-          const query = searchInput.value.trim();
-          if (query) performSearch(query);
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('{{ site.baseurl }}/assets/sw.js')
+    .then(registration => {
+      console.log('Service Worker registered with scope:', registration.scope);
+    })
+    .catch(error => {
+      console.log('Service Worker registration failed:', error);
+    });
+  }
+</script>
+
+<!-- Last Updated Time Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const lastUpdatedElement = document.getElementById('last-updated');
+    if (lastUpdatedElement) {
+      const lastModified = lastUpdatedElement.getAttribute('data-last-modified');
+      if (lastModified) {
+        const date = new Date(lastModified);
+        lastUpdatedElement.textContent = date.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+      }
+    }
+  });
+</script>
+
+<!-- Search Logic -->
+<script>
+  const searchInput = document.getElementById('search-input');
+  const resultsContainer = document.getElementById('results-container');
+  const searchButton = document.getElementById('search-button');
+
+  function performSearch(query) {
+    fetch('{{ site.baseurl }}/search.json')
+      .then(response => response.json())
+      .then(data => {
+        const results = data.filter(post => post.title.toLowerCase().includes(query.toLowerCase()) || 
+                                          post.content.toLowerCase().includes(query.toLowerCase()));
+        
+        if (results.length > 0) {
+          resultsContainer.innerHTML = results.map(result => 
+            `<div class="p-2 mb-2" style="background-color: #f5f5f5; border-radius: 4px;">
+              <a href="${result.url}" class="text-decoration-none">
+                <strong style="color: #6200ee;">${result.title}</strong>
+              </a>
+            </div>`
+          ).join('');
+        } else {
+          resultsContainer.innerHTML = '<div class="alert alert-info">No results found</div>';
         }
       });
-    </script>
+  }
 
-    <!-- All Posts List -->
-    <ul class="list-group fixed-height-scroll">
-      {% assign sorted_posts = site.posts | sort: 'title' %}
-      {% for post in sorted_posts %}
-        <li class="list-group-item">
-          <img src="{{ post.image }}" alt="{{ post.title }}" class="list-group-item-image"/>
-          <a href="{{ post.url }}">{{ post.title }}</a>
-        </li>
-      {% endfor %}
-    </ul>
+  searchButton.addEventListener('click', () => {
+    const query = searchInput.value.trim();
+    if (query) performSearch(query);
+  });
 
-    <!-- Install Button Logic -->
-    <script>
-      let deferredPrompt;
-      const installButton = document.getElementById('install-button');
-      installButton.style.display = 'none'; // Initially hide the button
-
-      window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        installButton.style.display = 'block'; // Show the button
-
-        installButton.addEventListener('click', () => {
-          deferredPrompt.prompt();
-          deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-              console.log('User accepted the A2HS prompt');
-            } else {
-              console.log('User dismissed the A2HS prompt');
-            }
-            deferredPrompt = null;
-          });
-        });
-      });
-
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('{{ site.baseurl }}/assets/sw.js')
-        .then(registration => {
-          console.log('Service Worker registered with scope:', registration.scope);
-        })
-        .catch(error => {
-          console.log('Service Worker registration failed:', error);
-        });
-      }
-    </script>
-    
-    </div>
-    </div>
+  searchInput.addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') {
+      const query = searchInput.value.trim();
+      if (query) performSearch(query);
+    }
+  });
+</script>
